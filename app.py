@@ -1,17 +1,25 @@
 from flask import Flask, render_template, request, redirect, url_for
 import psycopg2
-import psycopg2.extras
+from psycopg2.extras import RealDictCursor
 from config import DB_CONFIG
 
 app = Flask(__name__)
 
 def get_db_connection():
-    return psycopg2.connect(**DB_CONFIG)
+    return psycopg2.connect(
+        host=DB_CONFIG['host'],
+        dbname=DB_CONFIG['dbname'],
+        user=DB_CONFIG['user'],
+        password=DB_CONFIG['password'],
+        port=DB_CONFIG['port'],
+        sslmode=DB_CONFIG['sslmode'],
+        cursor_factory=RealDictCursor
+    )
 
 @app.route('/')
 def index():
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
     cursor.execute("SELECT * FROM matches ORDER BY match_date DESC")
     matches = cursor.fetchall()
     conn.close()
@@ -31,9 +39,8 @@ def add_match():
         odds_ou = request.form['odds_ou']
 
         conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
+        cursor = conn.cursor()
 
-        # Cek duplikasi berdasarkan tim_home, tim_away dan match_date
         cursor.execute("""
             SELECT * FROM matches 
             WHERE team_home = %s AND team_away = %s AND match_date = %s
@@ -45,8 +52,6 @@ def add_match():
             error = "Pertandingan dengan tim dan tanggal yang sama sudah ada."
             return render_template('add_match.html', error=error)
 
-        # Jika tidak ada duplikat, lanjut insert
-        cursor = conn.cursor()
         cursor.execute("""
             INSERT INTO matches 
             (team_home, team_away, match_date, venue, winner, hdp, over_under, odds_hdp, odds_ou) 
@@ -61,7 +66,7 @@ def add_match():
 @app.route('/edit/<int:match_id>', methods=['GET', 'POST'])
 def edit_match(match_id):
     conn = get_db_connection()
-    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor = conn.cursor()
 
     if request.method == 'POST':
         data = (
@@ -85,7 +90,7 @@ def edit_match(match_id):
         conn.commit()
         conn.close()
         return redirect(url_for('index'))
-    
+
     cursor.execute("SELECT * FROM matches WHERE id = %s", (match_id,))
     match = cursor.fetchone()
 
@@ -108,7 +113,7 @@ def delete_match(match_id):
 def search():
     query = request.args.get('query')
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor()
     sql = """
         SELECT * FROM matches 
         WHERE team_home LIKE %s OR team_away LIKE %s

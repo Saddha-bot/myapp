@@ -1,9 +1,8 @@
-import os
-
 DB_CONFIG = {
-    'host': os.environ.get('DB_HOST'),
-    'database': os.environ.get('DB_NAME'),
-    'user': os.environ.get('DB_USER'),
-    'password': os.environ.get('DB_PASSWORD'),
-    'port': 5432  # default PostgreSQL port
+    'host': 'ep-misty-sun-a12zcvkh-pooler.ap-southeast-1.aws.neon.tech',
+    'dbname': 'neondb',
+    'user': 'neondb_owner',
+    'password': 'npg_u7qPfEQNeR8W',
+    'port': 5432,
+    'sslmode': 'require'
 }

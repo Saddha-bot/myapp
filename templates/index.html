@@ -1,71 +1,45 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <title>Daftar Pertandingan</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
-
-  <div class="container py-5">
-    <h1 class="mb-4">📅 Daftar Pertandingan</h1>
-
-    <form class="row g-3 mb-4" action="{{ url_for('search') }}" method="get">
-  <div class="col-md-6">
-    <input type="text" name="query" class="form-control" placeholder="Cari tim..." value="{{ request.args.get('query', '') }}" required>
-  </div>
-  <div class="col-md-auto">
-    <button type="submit" class="btn btn-primary">Cari</button>
-    <a href="{{ url_for('add_match') }}" class="btn btn-success ms-2">+ Tambah Pertandingan</a>
-    {% if request.args.get('query') %}
-      <a href="{{ url_for('index') }}" class="btn btn-outline-secondary ms-2">← Kembali ke Daftar</a>
-    {% endif %}
-  </div>
-</form>
-
-    <!-- Tabel Pertandingan -->
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover table-striped align-middle">
-        <thead class="table-dark">
-          <tr>
-            <th>Tanggal</th>
-            <th>Tim Home</th>
-            <th>Tim Away</th>
-            <th>Venue</th>
-            <th>Pemenang</th>
-            <th>HDP</th>
-            <th>Over/Under</th>
-            <th>Odds HDP</th>
-            <th>Odds OU</th>
-            <th>Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for match in matches %}
-            <tr>
-              <td>{{ match.match_date }}</td>
-              <td>{{ match.team_home }}</td>
-              <td>{{ match.team_away }}</td>
-              <td>{{ match.venue }}</td>
-              <td>{{ match.winner or '-' }}</td>
-              <td>{{ match.hdp }}</td>
-              <td>{{ match.over_under }}</td>
-              <td>{{ match.odds_hdp }}</td>
-              <td>{{ match.odds_ou }}</td>
-              <td>
-                <a href="{{ url_for('edit_match', match_id=match.id) }}" class="btn btn-sm btn-warning">Edit</a>
-                <a href="{{ url_for('delete_match', match_id=match.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus pertandingan ini?')">Hapus</a>
-              </td>
-            </tr>
-          {% else %}
-            <tr>
-              <td colspan="10" class="text-center text-muted">Tidak ada data pertandingan.</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-</body>
-</html>
+<thead class="table-dark">
+  <tr>
+    <th>Tanggal</th>
+    <th>Tim Home</th>
+    <th>Tim Away</th>
+    <th>Venue</th>
+    <th>Pemenang</th>
+    <th>HDP</th>
+    <th>Over/Under</th>
+    <th>Odds HDP</th>
+    <th>Odds OU</th>
+    <th>Created By</th>
+    <th>Final Score</th>
+    <th>HDP Result</th>
+    <th>OU Result</th>
+    <th>Aksi</th> <!-- Aksi pindah ke akhir -->
+  </tr>
+</thead>
+<tbody>
+  {% for match in matches %}
+    <tr>
+      <td>{{ match.match_date }}</td>
+      <td>{{ match.team_home }}</td>
+      <td>{{ match.team_away }}</td>
+      <td>{{ match.venue }}</td>
+      <td>{{ match.winner or '-' }}</td>
+      <td>{{ match.hdp }}</td>
+      <td>{{ match.over_under }}</td>
+      <td>{{ match.odds_hdp }}</td>
+      <td>{{ match.odds_ou }}</td>
+      <td>{{ match.created_by or '-' }}</td>
+      <td>{{ match.final_score or '-' }}</td>
+      <td>{{ match.parlay_hdp_result or '-' }}</td>
+      <td>{{ match.parlay_ou_result or '-' }}</td>
+      <td>
+        <a href="{{ url_for('edit_match', match_id=match.id) }}" class="btn btn-sm btn-warning">Edit</a>
+        <a href="{{ url_for('delete_match', match_id=match.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus pertandingan ini?')">Hapus</a>
+      </td>
+    </tr>
+  {% else %}
+    <tr>
+      <td colspan="14" class="text-center text-muted">Tidak ada data pertandingan.</td>
+    </tr>
+  {% endfor %}
+</tbody>

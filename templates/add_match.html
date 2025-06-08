@@ -105,6 +105,26 @@
 
       <label for="odds_ou">Odds OU</label>
       <input type="text" id="odds_ou" name="odds_ou">
+	  
+	  <label>Dibuat oleh:</label>
+	  <input type="text" name="created_by" required>
+
+	<label>Skor Akhir:</label>
+	<input type="text" name="final_score">
+
+	<label>Parlay HDP:</label>
+		<select name="parlay_hdp_result">
+		<option value="">-</option>
+		<option value="Menang">Menang</option>
+		<option value="Kalah">Kalah</option>
+</select>
+<label>Parlay Over/Under:</label>
+<select name="parlay_ou_result">
+  <option value="">-</option>
+  <option value="Menang">Menang</option>
+  <option value="Kalah">Kalah</option>
+</select>
+
 
       <button type="submit">Simpan Pertandingan</button>
     </form>

@@ -37,6 +37,10 @@ def add_match():
         over_under = request.form['over_under']
         odds_hdp = request.form['odds_hdp']
         odds_ou = request.form['odds_ou']
+        created_by = request.form['created_by']
+        final_score = request.form['final_score']
+        parlay_hdp_result = request.form['parlay_hdp_result'] or None
+        parlay_ou_result = request.form['parlay_ou_result'] or None
 
         conn = get_db_connection()
         cursor = conn.cursor()
@@ -54,9 +58,11 @@ def add_match():
 
         cursor.execute("""
             INSERT INTO matches 
-            (team_home, team_away, match_date, venue, winner, hdp, over_under, odds_hdp, odds_ou) 
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-        """, (team_home, team_away, match_date, venue, winner, hdp, over_under, odds_hdp, odds_ou))
+            (team_home, team_away, match_date, venue, winner, hdp, over_under, odds_hdp, odds_ou,
+             created_by, final_score, parlay_hdp_result, parlay_ou_result) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """, (team_home, team_away, match_date, venue, winner, hdp, over_under, odds_hdp, odds_ou,
+              created_by, final_score, parlay_hdp_result, parlay_ou_result))
         conn.commit()
         conn.close()
         return redirect(url_for('index'))
@@ -69,22 +75,32 @@ def edit_match(match_id):
     cursor = conn.cursor()
 
     if request.method == 'POST':
+        team_home = request.form['team_home']
+        team_away = request.form['team_away']
+        match_date = request.form['match_date']
+        venue = request.form['venue']
+        winner = request.form['winner'] or None
+        hdp = request.form['hdp']
+        over_under = request.form['over_under']
+        odds_hdp = request.form['odds_hdp']
+        odds_ou = request.form['odds_ou']
+        created_by = request.form['created_by']
+        final_score = request.form['final_score']
+        parlay_hdp_result = request.form['parlay_hdp_result'] or None
+        parlay_ou_result = request.form['parlay_ou_result'] or None
+
         data = (
-            request.form['team_home'],
-            request.form['team_away'],
-            request.form['match_date'],
-            request.form['venue'],
-            request.form['winner'] or None,
-            request.form['hdp'],
-            request.form['over_under'],
-            request.form['odds_hdp'],
-            request.form['odds_ou'],
+            team_home, team_away, match_date, venue, winner,
+            hdp, over_under, odds_hdp, odds_ou,
+            created_by, final_score, parlay_hdp_result, parlay_ou_result,
             match_id
         )
+
         cursor.execute("""
             UPDATE matches 
             SET team_home=%s, team_away=%s, match_date=%s, venue=%s, winner=%s, 
-                hdp=%s, over_under=%s, odds_hdp=%s, odds_ou=%s 
+                hdp=%s, over_under=%s, odds_hdp=%s, odds_ou=%s, 
+                created_by=%s, final_score=%s, parlay_hdp_result=%s, parlay_ou_result=%s 
             WHERE id=%s
         """, data)
         conn.commit()
@@ -116,7 +132,7 @@ def search():
     cursor = conn.cursor()
     sql = """
         SELECT * FROM matches 
-        WHERE team_home LIKE %s OR team_away LIKE %s
+        WHERE team_home ILIKE %s OR team_away ILIKE %s
         ORDER BY match_date DESC
     """
     cursor.execute(sql, ('%' + query + '%', '%' + query + '%'))

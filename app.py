@@ -1,11 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for
-import mysql.connector
+import psycopg2
+import psycopg2.extras
 from config import DB_CONFIG
 
 app = Flask(__name__)
 
 def get_db_connection():
-    return mysql.connector.connect(**DB_CONFIG)
+    return psycopg2.connect(**DB_CONFIG)
 
 @app.route('/')
 def index():
@@ -60,7 +61,7 @@ def add_match():
 @app.route('/edit/<int:match_id>', methods=['GET', 'POST'])
 def edit_match(match_id):
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
     if request.method == 'POST':
         data = (

@@ -3,112 +3,371 @@
 <head>
   <meta charset="UTF-8">
   <title>Daftar Pertandingan - JASA365</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #3f37c9;
+      --success: #4cc9f0;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --light-gray: #e9ecef;
+    }
+    
     body {
-      font-family: 'Montserrat', sans-serif;
-      background-color: #f1f5f9;
+      font-family: 'Poppins', sans-serif;
+      background-color: #f5f7ff;
+      padding: 0;
       margin: 0;
-      padding: 2rem;
+      color: var(--dark);
     }
-    h2 {
-      text-align: center;
-      color: #333;
-    }
+    
     .container {
-      max-width: 1000px;
-      margin: auto;
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    
+    .card {
       background: white;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      margin-bottom: 2rem;
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-    }
-    th, td {
-      padding: 10px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-      font-size: 14px;
-    }
-    th {
-      background-color: #f9fafb;
-      font-weight: bold;
-    }
-    a.button {
-      display: inline-block;
-      padding: 10px 16px;
-      background-color: #7bbf63;
-      color: white;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    a.button:hover {
-      background-color: #5fa04e;
-    }
-    .actions a {
-      margin-right: 10px;
-      text-decoration: none;
-      color: #0366d6;
-    }
-    .actions a:hover {
-      text-decoration: underline;
-    }
-    .topbar {
+    
+    .card-header {
+      padding: 1.5rem 2rem;
+      background: white;
+      border-bottom: 1px solid var(--light-gray);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+    
+    h1 {
+      margin: 0;
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .search-container {
+      position: relative;
+      width: 100%;
+      max-width: 300px;
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 2.5rem;
+      border: 1px solid var(--light-gray);
+      border-radius: 8px;
+      font-family: 'Poppins', sans-serif;
+      transition: all 0.2s;
+    }
+    
+    .search-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+    }
+    
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.75rem 1.5rem;
+      background: var(--primary);
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+    
+    .btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
+    }
+    
+    .btn i {
+      margin-right: 8px;
+    }
+    
+    .table-responsive {
+      overflow-x: auto;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    
+    thead {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+    }
+    
+    th {
+      padding: 1rem 1.5rem;
+      text-align: left;
+      font-weight: 500;
+      position: sticky;
+      top: 0;
+    }
+    
+    td {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    
+    tr:last-child td {
+      border-bottom: none;
+    }
+    
+    tr:hover td {
+      background-color: rgba(67, 97, 238, 0.03);
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 0.35rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .badge-winner {
+      background-color: rgba(76, 201, 240, 0.1);
+      color: var(--success);
+    }
+    
+    .badge-tbd {
+      background-color: rgba(108, 117, 125, 0.1);
+      color: var(--gray);
+    }
+    
+    .badge-liga {
+      background-color: rgba(63, 55, 201, 0.1);
+      color: var(--secondary);
+    }
+    
+    .action-btns {
+      display: flex;
+      gap: 0.75rem;
+    }
+    
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      color: white;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    
+    .action-btn.edit {
+      background: var(--primary);
+    }
+    
+    .action-btn.delete {
+      background: #ef233c;
+    }
+    
+    .action-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .empty-state {
+      padding: 3rem 1rem;
+      text-align: center;
+      color: var(--gray);
+    }
+    
+    .empty-state i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: var(--light-gray);
+    }
+    
+    .empty-state p {
+      font-size: 1.1rem;
+      margin: 0;
+    }
+    
+    .team-cell {
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+    }
+    
+    .vs {
+      margin: 0 0.5rem;
+      color: var(--gray);
+      font-weight: 400;
+    }
+    
+    @media (max-width: 768px) {
+      .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      
+      .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      
+      .search-container {
+        max-width: 100%;
+      }
+      
+      th, td {
+        padding: 0.75rem;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="topbar">
-      <h2>Daftar Pertandingan</h2>
-      <a href="{{ url_for('add_match') }}" class="button">+ Tambah Pertandingan</a>
+    <div class="card">
+      <div class="card-header">
+        <div class="header-content">
+          <h1>
+            <i class="fas fa-futbol"></i>
+            Daftar Pertandingan
+          </h1>
+          <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="Cari pertandingan..." id="searchInput">
+          </div>
+        </div>
+        <a href="{{ url_for('add_match') }}" class="btn">
+          <i class="fas fa-plus"></i> Tambah Pertandingan
+        </a>
+      </div>
+      
+      <div class="table-responsive">
+        <table id="matchesTable">
+          <thead>
+            <tr>
+              <th>Pertandingan</th>
+              <th>Tanggal</th>
+              <th>Liga</th>
+              <th>Pemenang</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for match in matches %}
+            <tr>
+              <td>
+                <div class="team-cell">
+                  {{ match.team_home }}
+                  <span class="vs">vs</span>
+                  {{ match.team_away }}
+                </div>
+              </td>
+              <td>{{ match.match_date.strftime('%d %b %Y, %H:%M') }}</td>
+              <td>
+                <span class="badge badge-liga">
+                  {{ match.venue }} <!-- Assuming 'venue' is now being used for league -->
+                </span>
+              </td>
+              <td>
+                {% if match.winner %}
+                <span class="badge badge-winner">
+                  <i class="fas fa-trophy"></i> {{ match.winner }}
+                </span>
+                {% else %}
+                <span class="badge badge-tbd">TBD</span>
+                {% endif %}
+              </td>
+              <td>
+                <div class="action-btns">
+                  <a href="{{ url_for('edit_match', match_id=match.id) }}" class="action-btn edit" title="Edit">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                  <a href="{{ url_for('delete_match', match_id=match.id) }}" class="action-btn delete" title="Hapus" onclick="return confirm('Yakin ingin menghapus pertandingan ini?')">
+                    <i class="fas fa-trash"></i>
+                  </a>
+                </div>
+              </td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="5">
+                <div class="empty-state">
+                  <i class="fas fa-inbox"></i>
+                  <p>Belum ada data pertandingan</p>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
-    <table>
-      <thead>
-        <tr>
-          <th>Tanggal</th>
-          <th>Tim</th>
-          <th>Venue</th>
-          <th>Skor</th>
-          <th>HDP</th>
-          <th>OU</th>
-          <th>Odds</th>
-          <th>Parlay</th>
-          <th>Dibuat Oleh</th>
-          <th>Aksi</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for match in matches %}
-        <tr>
-          <td>{{ match.match_date }}</td>
-          <td>{{ match.team_home }} vs {{ match.team_away }}</td>
-          <td>{{ match.venue }}</td>
-          <td>{{ match.final_score or '-' }}</td>
-          <td>{{ match.hdp }}</td>
-          <td>{{ match.over_under }}</td>
-          <td>HDP: {{ match.odds_hdp }}<br>OU: {{ match.odds_ou }}</td>
-          <td>HDP: {{ match.parlay_hdp_result or '-' }}<br>OU: {{ match.parlay_ou_result or '-' }}</td>
-          <td>{{ match.created_by }}</td>
-          <td class="actions">
-            <a href="{{ url_for('edit_match', match_id=match.id) }}">Edit</a>
-            <a href="{{ url_for('delete_match', match_id=match.id) }}" onclick="return confirm('Yakin ingin hapus?')">Hapus</a>
-          </td>
-        </tr>
-        {% else %}
-        <tr>
-          <td colspan="10" style="text-align:center;">Belum ada data pertandingan.</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const searchInput = document.getElementById('searchInput');
+      const table = document.getElementById('matchesTable');
+      const rows = table.getElementsByTagName('tr');
+      
+      searchInput.addEventListener('keyup', function() {
+        const searchTerm = this.value.toLowerCase();
+        
+        for (let i = 1; i < rows.length; i++) { // Skip header row
+          const row = rows[i];
+          const text = row.textContent.toLowerCase();
+          
+          if (text.includes(searchTerm)) {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
+          }
+        }
+      });
+    });
+  </script>
 </body>
 </html>

@@ -2,100 +2,136 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Edit Pertandingan</title>
+  <title>Edit Pertandingan - JASA365</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: Arial, sans-serif;
-      margin: 40px;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f1f5f9;
+      margin: 0;
+      padding: 1rem;
     }
-    h1 {
+
+    .container {
+      max-width: 800px;
+      background-color: white;
+      margin: auto;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
       color: #333;
     }
-    form {
-      max-width: 600px;
-      background: #f9f9f9;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    label {
+
+    form label {
       display: block;
-      margin-bottom: 10px;
-      font-weight: bold;
+      margin-top: 1rem;
+      font-weight: 600;
+      color: #444;
     }
-    input[type="text"],
-    input[type="datetime-local"] {
+
+    input, select {
       width: 100%;
-      padding: 8px;
-      margin-top: 4px;
-      margin-bottom: 16px;
+      padding: 10px;
+      margin-top: 0.4rem;
+      border-radius: 6px;
       border: 1px solid #ccc;
-      border-radius: 4px;
+      font-size: 1rem;
     }
+
     button {
-      background-color: #4CAF50;
+      margin-top: 2rem;
+      width: 100%;
+      padding: 12px;
+      background-color: #7bbf63;
       color: white;
-      padding: 10px 16px;
       border: none;
-      border-radius: 4px;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: bold;
       cursor: pointer;
+      transition: background 0.3s ease;
     }
+
     button:hover {
-      background-color: #45a049;
+      background-color: #5fa04e;
     }
-    a {
-      display: inline-block;
-      margin-top: 20px;
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 1rem;
       text-decoration: none;
-      color: #007BFF;
+      color: #555;
     }
-    a:hover {
+
+    .back-link:hover {
       text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <h1>Edit Pertandingan</h1>
-  <form method="post">
-    <label>Tim Home:
-      <input type="text" name="team_home" value="{{ match.team_home }}" required>
-    </label>
+  <div class="container">
+    <h2>Edit Pertandingan</h2>
+    <form method="post">
+      <label for="match_date">Tanggal Pertandingan</label>
+      <input type="datetime-local" id="match_date" name="match_date" value="{{ match.match_date }}" required>
 
-    <label>Tim Away:
-      <input type="text" name="team_away" value="{{ match.team_away }}" required>
-    </label>
+      <label for="team_home">Tim Home</label>
+      <input type="text" id="team_home" name="team_home" value="{{ match.team_home }}" required>
 
-    <label>Tanggal:
-      <input type="datetime-local" class="form-control" id="match_date" name="match_date" required value="{{ match.match_date }}">
-    </label>
+      <label for="team_away">Tim Away</label>
+      <input type="text" id="team_away" name="team_away" value="{{ match.team_away }}" required>
 
-    <label>Venue:
-      <input type="text" name="venue" value="{{ match.venue }}" required>
-    </label>
+      <label for="league">Liga</label>
+      <input type="text" id="league" name="league" value="{{ match.league }}">
 
-    <label>Pemenang:
-      <input type="text" name="winner" value="{{ match.winner or '' }}">
-    </label>
+      <label for="venue">Venue</label>
+      <input type="text" id="venue" name="venue" value="{{ match.venue }}">
 
-    <label>HDP:
-      <input type="text" name="hdp" value="{{ match.hdp }}">
-    </label>
+      <label for="winner">Pemenang</label>
+      <input type="text" id="winner" name="winner" value="{{ match.winner or '' }}">
 
-    <label>Over/Under:
-      <input type="text" name="over_under" value="{{ match.over_under }}">
-    </label>
+      <label for="hdp">HDP (Handicap)</label>
+      <input type="text" id="hdp" name="hdp" value="{{ match.hdp }}">
 
-    <label>Odds HDP:
-      <input type="text" name="odds_hdp" value="{{ match.odds_hdp }}">
-    </label>
+      <label for="over_under">Over/Under</label>
+      <input type="text" id="over_under" name="over_under" value="{{ match.over_under }}">
 
-    <label>Odds OU:
-      <input type="text" name="odds_ou" value="{{ match.odds_ou }}">
-    </label>
+      <label for="odds_hdp">Odds HDP</label>
+      <input type="text" id="odds_hdp" name="odds_hdp" value="{{ match.odds_hdp }}">
 
-    <button type="submit">Update</button>
-  </form>
+      <label for="odds_ou">Odds OU</label>
+      <input type="text" id="odds_ou" name="odds_ou" value="{{ match.odds_ou }}">
 
-  <a href="{{ url_for('index') }}">← Kembali ke Daftar Pertandingan</a>
+      <label for="final_score">Skor Akhir</label>
+      <input type="text" id="final_score" name="final_score" value="{{ match.final_score or '' }}">
+
+      <label for="parlay_hdp_result">HDP Menang</label>
+      <select id="parlay_hdp_result" name="parlay_hdp_result">
+        <option value="">-</option>
+        <option value="Menang" {% if match.parlay_hdp_result == 'Menang' %}selected{% endif %}>Ya</option>
+        <option value="Kalah" {% if match.parlay_hdp_result == 'Kalah' %}selected{% endif %}>Tidak</option>
+      </select>
+
+      <label for="parlay_ou_result">O/U Menang</label>
+      <select id="parlay_ou_result" name="parlay_ou_result">
+        <option value="">-</option>
+        <option value="Menang" {% if match.parlay_ou_result == 'Menang' %}selected{% endif %}>Ya</option>
+        <option value="Kalah" {% if match.parlay_ou_result == 'Kalah' %}selected{% endif %}>Tidak</option>
+      </select>
+
+      <label for="created_by">Dibuat Oleh</label>
+      <input type="text" id="created_by" name="created_by" value="{{ match.created_by }}" required>
+
+      <button type="submit">Update Pertandingan</button>
+    </form>
+    <a href="{{ url_for('index') }}" class="back-link">← Kembali ke Daftar</a>
+  </div>
 </body>
 </html>

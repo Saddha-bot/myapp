@@ -79,22 +79,25 @@
   <div class="container">
     <h2>Tambah Pertandingan</h2>
     <form method="POST">
+      <label for="match_date">Tanggal Pertandingan</label>
+      <input type="datetime-local" id="match_date" name="match_date" required>
+
       <label for="team_home">Tim Home</label>
       <input type="text" id="team_home" name="team_home" required>
 
       <label for="team_away">Tim Away</label>
       <input type="text" id="team_away" name="team_away" required>
 
-      <label for="match_date">Tanggal Pertandingan</label>
-      <input type="datetime-local" id="match_date" name="match_date" required>
+      <label for="league">Liga</label>
+      <input type="text" id="league" name="league">
 
       <label for="venue">Venue</label>
-      <input type="text" id="venue" name="venue" required>
+      <input type="text" id="venue" name="venue">
 
       <label for="winner">Pemenang</label>
       <input type="text" id="winner" name="winner">
 
-      <label for="hdp">HDP</label>
+      <label for="hdp">HDP (Handicap)</label>
       <input type="text" id="hdp" name="hdp">
 
       <label for="over_under">Over/Under</label>
@@ -105,26 +108,26 @@
 
       <label for="odds_ou">Odds OU</label>
       <input type="text" id="odds_ou" name="odds_ou">
-	  
-	  <label>Dibuat oleh:</label>
-	  <input type="text" name="created_by" required>
 
-	<label>Skor Akhir:</label>
-	<input type="text" name="final_score">
+      <label for="final_score">Skor Akhir</label>
+      <input type="text" id="final_score" name="final_score">
 
-	<label>Parlay HDP:</label>
-		<select name="parlay_hdp_result">
-		<option value="">-</option>
-		<option value="Menang">Menang</option>
-		<option value="Kalah">Kalah</option>
-</select>
-<label>Parlay Over/Under:</label>
-<select name="parlay_ou_result">
-  <option value="">-</option>
-  <option value="Menang">Menang</option>
-  <option value="Kalah">Kalah</option>
-</select>
+      <label for="parlay_hdp_result">HDP Menang</label>
+      <select id="parlay_hdp_result" name="parlay_hdp_result">
+        <option value="">-</option>
+        <option value="Menang">Ya</option>
+        <option value="Kalah">Tidak</option>
+      </select>
 
+      <label for="parlay_ou_result">O/U Menang</label>
+      <select id="parlay_ou_result" name="parlay_ou_result">
+        <option value="">-</option>
+        <option value="Menang">Ya</option>
+        <option value="Kalah">Tidak</option>
+      </select>
+
+      <label for="created_by">Dibuat Oleh</label>
+      <input type="text" id="created_by" name="created_by" required>
 
       <button type="submit">Simpan Pertandingan</button>
     </form>

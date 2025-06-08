@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Tambah Pertandingan - JASA365</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f1f5f9;
+      margin: 0;
+      padding: 1rem;
+    }
+
+    .container {
+      max-width: 800px;
+      background-color: white;
+      margin: auto;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    form label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: 600;
+      color: #444;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 0.4rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    button {
+      margin-top: 2rem;
+      width: 100%;
+      padding: 12px;
+      background-color: #7bbf63;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #5fa04e;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 1rem;
+      text-decoration: none;
+      color: #555;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Tambah Pertandingan</h2>
+    <form method="POST">
+      <label for="team_home">Tim Home</label>
+      <input type="text" id="team_home" name="team_home" required>
+
+      <label for="team_away">Tim Away</label>
+      <input type="text" id="team_away" name="team_away" required>
+
+      <label for="match_date">Tanggal Pertandingan</label>
+      <input type="datetime-local" id="match_date" name="match_date" required>
+
+      <label for="venue">Venue</label>
+      <input type="text" id="venue" name="venue" required>
+
+      <label for="winner">Pemenang</label>
+      <input type="text" id="winner" name="winner">
+
+      <label for="hdp">HDP</label>
+      <input type="text" id="hdp" name="hdp">
+
+      <label for="over_under">Over/Under</label>
+      <input type="text" id="over_under" name="over_under">
+
+      <label for="odds_hdp">Odds HDP</label>
+      <input type="text" id="odds_hdp" name="odds_hdp">
+
+      <label for="odds_ou">Odds OU</label>
+      <input type="text" id="odds_ou" name="odds_ou">
+
+      <button type="submit">Simpan Pertandingan</button>
+    </form>
+    <a href="{{ url_for('index') }}" class="back-link">← Kembali ke Daftar</a>
+  </div>
+</body>
+</html>

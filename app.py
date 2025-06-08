@@ -31,7 +31,7 @@ def add_match():
         team_home = request.form['team_home']
         team_away = request.form['team_away']
         match_date = request.form['match_date']
-        venue = request.form['venue']
+        liga = request.form['liga']
         winner = request.form['winner'] or None
         hdp = request.form['hdp']
         over_under = request.form['over_under']
@@ -58,10 +58,10 @@ def add_match():
 
         cursor.execute("""
             INSERT INTO matches 
-            (team_home, team_away, match_date, venue, winner, hdp, over_under, odds_hdp, odds_ou,
+            (team_home, team_away, match_date, liga, winner, hdp, over_under, odds_hdp, odds_ou,
              created_by, final_score, parlay_hdp_result, parlay_ou_result) 
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-        """, (team_home, team_away, match_date, venue, winner, hdp, over_under, odds_hdp, odds_ou,
+        """, (team_home, team_away, match_date, liga, winner, hdp, over_under, odds_hdp, odds_ou,
               created_by, final_score, parlay_hdp_result, parlay_ou_result))
         conn.commit()
         conn.close()
@@ -78,7 +78,7 @@ def edit_match(match_id):
         team_home = request.form['team_home']
         team_away = request.form['team_away']
         match_date = request.form['match_date']
-        venue = request.form['venue']
+        liga = request.form['liga']
         winner = request.form['winner'] or None
         hdp = request.form['hdp']
         over_under = request.form['over_under']
@@ -90,7 +90,7 @@ def edit_match(match_id):
         parlay_ou_result = request.form['parlay_ou_result'] or None
 
         data = (
-            team_home, team_away, match_date, venue, winner,
+            team_home, team_away, match_date, liga, winner,
             hdp, over_under, odds_hdp, odds_ou,
             created_by, final_score, parlay_hdp_result, parlay_ou_result,
             match_id
@@ -98,7 +98,7 @@ def edit_match(match_id):
 
         cursor.execute("""
             UPDATE matches 
-            SET team_home=%s, team_away=%s, match_date=%s, venue=%s, winner=%s, 
+            SET team_home=%s, team_away=%s, match_date=%s, liga=%s, winner=%s, 
                 hdp=%s, over_under=%s, odds_hdp=%s, odds_ou=%s, 
                 created_by=%s, final_score=%s, parlay_hdp_result=%s, parlay_ou_result=%s 
             WHERE id=%s

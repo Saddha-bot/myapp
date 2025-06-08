@@ -209,7 +209,7 @@
           <td>{{ match.created_by }}</td>
           <td>
             <button class="btn btn-edit" onclick="window.location.href='{{ url_for('edit_match', match_id=match.id) }}'">Edit</button>
-            <button class="btn btn-delete" onclick="return confirm('Apakah Anda yakin ingin menghapus pertandingan ini?')">Hapus</button>
+            <button class="btn btn-delete" onclick="if(confirm('Apakah Anda yakin ingin menghapus pertandingan ini?')) window.location.href='{{ url_for('delete_match', match_id=match.id) }}';">Hapus</button>
             <button class="btn btn-check" onclick="togglePopup(this)">Check</button>
             <div class="popup-box">
               <p><strong>Tanggal</strong> <span>{{ match.match_date }}</span></p>

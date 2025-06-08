@@ -181,9 +181,13 @@
 
     <!-- Form Pencarian -->
     <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="Cari tim...">
-      <button class="btn" onclick="searchMatch()">Cari</button>
-    </div>
+  <input type="text" id="searchInput" placeholder="Cari tim..." value="{{ request.args.get('query', '') }}">
+  <button class="btn" onclick="searchMatch()">Cari</button>
+  
+  {% if request.args.get('query') %}
+    <button class="btn" onclick="window.location.href='{{ url_for('index') }}'">Kembali</button>
+  {% endif %}
+</div>
 
     <button class="add-btn" onclick="window.location.href='{{ url_for('add_match') }}'">+ Tambah Pertandingan</button>
 
@@ -215,6 +219,7 @@
               <p><strong>Tanggal</strong> <span>{{ match.match_date }}</span></p>
               <p><strong>Tim Home</strong> <span>{{ match.team_home }}</span></p>
               <p><strong>Tim Away</strong> <span>{{ match.team_away }}</span></p>
+			  <p><strong>Skor Akhir</strong> <span>{{ match.final_score or 'Belum tersedia' }}</span></p>
               <p><strong>HDP</strong> <span>{{ match.hdp }}</span></p>
               <p><strong>Over/Under</strong> <span>{{ match.over_under }}</span></p>
               <p><strong>Odds HDP</strong> <span>{{ match.odds_hdp }}</span></p>

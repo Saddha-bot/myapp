@@ -23,7 +23,7 @@ def index():
     cursor.execute("SELECT * FROM matches ORDER BY match_date DESC")
     matches = cursor.fetchall()
     conn.close()
-    return render_template('index.html', matches=matches)
+    return render_template('index.html', matches=matches, request=request)
 
 @app.route('/add', methods=['GET', 'POST'])
 def add_match():
@@ -138,7 +138,7 @@ def search():
     cursor.execute(sql, ('%' + query + '%', '%' + query + '%'))
     matches = cursor.fetchall()
     conn.close()
-    return render_template('index.html', matches=matches)
+    return render_template('index.html', matches=matches, request=request)  # Tambahkan `request`
 
 if __name__ == '__main__':
     app.run(debug=True)

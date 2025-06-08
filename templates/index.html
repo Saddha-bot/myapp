@@ -2,148 +2,113 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Tambah Pertandingan - JASA365</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Daftar Pertandingan - JASA365</title>
   <style>
     body {
       font-family: 'Montserrat', sans-serif;
       background-color: #f1f5f9;
       margin: 0;
-      padding: 1rem;
-    }
-
-    .container {
-      max-width: 800px;
-      background-color: white;
-      margin: auto;
       padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
     }
-
     h2 {
       text-align: center;
-      margin-bottom: 1.5rem;
       color: #333;
     }
-
-    .error {
-      color: #e74c3c;
-      background-color: #fdecea;
-      padding: 1rem;
-      border-radius: 6px;
-      margin-bottom: 1rem;
-      text-align: center;
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
     }
-
-    form label {
-      display: block;
+    table {
+      width: 100%;
+      border-collapse: collapse;
       margin-top: 1rem;
-      font-weight: 600;
-      color: #444;
     }
-
-    input, select {
-      width: 100%;
+    th, td {
       padding: 10px;
-      margin-top: 0.4rem;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+      font-size: 14px;
     }
-
-    button {
-      margin-top: 2rem;
-      width: 100%;
-      padding: 12px;
+    th {
+      background-color: #f9fafb;
+      font-weight: bold;
+    }
+    a.button {
+      display: inline-block;
+      padding: 10px 16px;
       background-color: #7bbf63;
       color: white;
-      border: none;
       border-radius: 6px;
-      font-size: 1rem;
+      text-decoration: none;
       font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s ease;
     }
-
-    button:hover {
+    a.button:hover {
       background-color: #5fa04e;
     }
-
-    .back-link {
-      display: block;
-      text-align: center;
-      margin-top: 1rem;
+    .actions a {
+      margin-right: 10px;
       text-decoration: none;
-      color: #555;
+      color: #0366d6;
     }
-
-    .back-link:hover {
+    .actions a:hover {
       text-decoration: underline;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Tambah Pertandingan</h2>
-
-    {% if error %}
-      <div class="error">{{ error }}</div>
-    {% endif %}
-
-    <form method="POST">
-      <label for="team_home">Tim Home</label>
-      <input type="text" id="team_home" name="team_home" required>
-
-      <label for="team_away">Tim Away</label>
-      <input type="text" id="team_away" name="team_away" required>
-
-      <label for="match_date">Tanggal Pertandingan</label>
-      <input type="datetime-local" id="match_date" name="match_date" required>
-
-      <label for="venue">Venue</label>
-      <input type="text" id="venue" name="venue" required>
-
-      <label for="winner">Pemenang</label>
-      <input type="text" id="winner" name="winner">
-
-      <label for="hdp">HDP</label>
-      <input type="text" id="hdp" name="hdp">
-
-      <label for="over_under">Over/Under</label>
-      <input type="text" id="over_under" name="over_under">
-
-      <label for="odds_hdp">Odds HDP</label>
-      <input type="text" id="odds_hdp" name="odds_hdp">
-
-      <label for="odds_ou">Odds OU</label>
-      <input type="text" id="odds_ou" name="odds_ou">
-
-      <label for="created_by">Dibuat oleh:</label>
-      <input type="text" id="created_by" name="created_by" required>
-
-      <label for="final_score">Skor Akhir:</label>
-      <input type="text" id="final_score" name="final_score">
-
-      <label for="parlay_hdp_result">Parlay HDP:</label>
-      <select name="parlay_hdp_result" id="parlay_hdp_result">
-        <option value="">-</option>
-        <option value="Menang">Menang</option>
-        <option value="Kalah">Kalah</option>
-      </select>
-
-      <label for="parlay_ou_result">Parlay Over/Under:</label>
-      <select name="parlay_ou_result" id="parlay_ou_result">
-        <option value="">-</option>
-        <option value="Menang">Menang</option>
-        <option value="Kalah">Kalah</option>
-      </select>
-
-      <button type="submit">Simpan Pertandingan</button>
-    </form>
-
-    <a href="{{ url_for('index') }}" class="back-link">← Kembali ke Daftar</a>
+    <div class="topbar">
+      <h2>Daftar Pertandingan</h2>
+      <a href="{{ url_for('add_match') }}" class="button">+ Tambah Pertandingan</a>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Tanggal</th>
+          <th>Tim</th>
+          <th>Venue</th>
+          <th>Skor</th>
+          <th>HDP</th>
+          <th>OU</th>
+          <th>Odds</th>
+          <th>Parlay</th>
+          <th>Dibuat Oleh</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for match in matches %}
+        <tr>
+          <td>{{ match.match_date }}</td>
+          <td>{{ match.team_home }} vs {{ match.team_away }}</td>
+          <td>{{ match.venue }}</td>
+          <td>{{ match.final_score or '-' }}</td>
+          <td>{{ match.hdp }}</td>
+          <td>{{ match.over_under }}</td>
+          <td>HDP: {{ match.odds_hdp }}<br>OU: {{ match.odds_ou }}</td>
+          <td>HDP: {{ match.parlay_hdp_result or '-' }}<br>OU: {{ match.parlay_ou_result or '-' }}</td>
+          <td>{{ match.created_by }}</td>
+          <td class="actions">
+            <a href="{{ url_for('edit_match', match_id=match.id) }}">Edit</a>
+            <a href="{{ url_for('delete_match', match_id=match.id) }}" onclick="return confirm('Yakin ingin hapus?')">Hapus</a>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="10" style="text-align:center;">Belum ada data pertandingan.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 </body>
 </html>

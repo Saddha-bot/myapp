@@ -1,45 +1,149 @@
-<thead class="table-dark">
-  <tr>
-    <th>Tanggal</th>
-    <th>Tim Home</th>
-    <th>Tim Away</th>
-    <th>Venue</th>
-    <th>Pemenang</th>
-    <th>HDP</th>
-    <th>Over/Under</th>
-    <th>Odds HDP</th>
-    <th>Odds OU</th>
-    <th>Created By</th>
-    <th>Final Score</th>
-    <th>HDP Result</th>
-    <th>OU Result</th>
-    <th>Aksi</th> <!-- Aksi pindah ke akhir -->
-  </tr>
-</thead>
-<tbody>
-  {% for match in matches %}
-    <tr>
-      <td>{{ match.match_date }}</td>
-      <td>{{ match.team_home }}</td>
-      <td>{{ match.team_away }}</td>
-      <td>{{ match.venue }}</td>
-      <td>{{ match.winner or '-' }}</td>
-      <td>{{ match.hdp }}</td>
-      <td>{{ match.over_under }}</td>
-      <td>{{ match.odds_hdp }}</td>
-      <td>{{ match.odds_ou }}</td>
-      <td>{{ match.created_by or '-' }}</td>
-      <td>{{ match.final_score or '-' }}</td>
-      <td>{{ match.parlay_hdp_result or '-' }}</td>
-      <td>{{ match.parlay_ou_result or '-' }}</td>
-      <td>
-        <a href="{{ url_for('edit_match', match_id=match.id) }}" class="btn btn-sm btn-warning">Edit</a>
-        <a href="{{ url_for('delete_match', match_id=match.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus pertandingan ini?')">Hapus</a>
-      </td>
-    </tr>
-  {% else %}
-    <tr>
-      <td colspan="14" class="text-center text-muted">Tidak ada data pertandingan.</td>
-    </tr>
-  {% endfor %}
-</tbody>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Tambah Pertandingan - JASA365</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f1f5f9;
+      margin: 0;
+      padding: 1rem;
+    }
+
+    .container {
+      max-width: 800px;
+      background-color: white;
+      margin: auto;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    .error {
+      color: #e74c3c;
+      background-color: #fdecea;
+      padding: 1rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    form label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: 600;
+      color: #444;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 0.4rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    button {
+      margin-top: 2rem;
+      width: 100%;
+      padding: 12px;
+      background-color: #7bbf63;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #5fa04e;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 1rem;
+      text-decoration: none;
+      color: #555;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Tambah Pertandingan</h2>
+
+    {% if error %}
+      <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST">
+      <label for="team_home">Tim Home</label>
+      <input type="text" id="team_home" name="team_home" required>
+
+      <label for="team_away">Tim Away</label>
+      <input type="text" id="team_away" name="team_away" required>
+
+      <label for="match_date">Tanggal Pertandingan</label>
+      <input type="datetime-local" id="match_date" name="match_date" required>
+
+      <label for="venue">Venue</label>
+      <input type="text" id="venue" name="venue" required>
+
+      <label for="winner">Pemenang</label>
+      <input type="text" id="winner" name="winner">
+
+      <label for="hdp">HDP</label>
+      <input type="text" id="hdp" name="hdp">
+
+      <label for="over_under">Over/Under</label>
+      <input type="text" id="over_under" name="over_under">
+
+      <label for="odds_hdp">Odds HDP</label>
+      <input type="text" id="odds_hdp" name="odds_hdp">
+
+      <label for="odds_ou">Odds OU</label>
+      <input type="text" id="odds_ou" name="odds_ou">
+
+      <label for="created_by">Dibuat oleh:</label>
+      <input type="text" id="created_by" name="created_by" required>
+
+      <label for="final_score">Skor Akhir:</label>
+      <input type="text" id="final_score" name="final_score">
+
+      <label for="parlay_hdp_result">Parlay HDP:</label>
+      <select name="parlay_hdp_result" id="parlay_hdp_result">
+        <option value="">-</option>
+        <option value="Menang">Menang</option>
+        <option value="Kalah">Kalah</option>
+      </select>
+
+      <label for="parlay_ou_result">Parlay Over/Under:</label>
+      <select name="parlay_ou_result" id="parlay_ou_result">
+        <option value="">-</option>
+        <option value="Menang">Menang</option>
+        <option value="Kalah">Kalah</option>
+      </select>
+
+      <button type="submit">Simpan Pertandingan</button>
+    </form>
+
+    <a href="{{ url_for('index') }}" class="back-link">← Kembali ke Daftar</a>
+  </div>
+</body>
+</html>
